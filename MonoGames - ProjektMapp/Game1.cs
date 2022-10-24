@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
 
-namespace MonoGames___ProjektMapp
+namespace MonoGames_ProjektMapp
 {
     public class Game1 : Game
     {
@@ -15,7 +15,8 @@ namespace MonoGames___ProjektMapp
         private Texture2D crouchTexture;
         private Texture2D cactus1Texture;
         private Texture2D backgroundTexture;
-        private Texture2D layer1Texture;
+        private Texture2D layer1_oneTexture;
+        private ParallaxTexture layer1_one;
 
         private List<Vector2> cactusis;
         private int cactusTimer = 120;
@@ -55,7 +56,8 @@ namespace MonoGames___ProjektMapp
             cactus1Texture = Content.Load<Texture2D>("cactus1");
 
             backgroundTexture = Content.Load<Texture2D>("background");
-            layer1Texture = Content.Load<Texture2D>("layer1");
+            layer1_oneTexture = Content.Load<Texture2D>("layer1");
+            layer1_one = new ParallaxTexture(layer1_oneTexture, 230);
 
             // TODO: use this.Content to load your game content here
         }
@@ -104,6 +106,7 @@ namespace MonoGames___ProjektMapp
                 cactusis[i] = cactusis[i] + new Vector2(-5, 0);
             }
 
+            layer1_one.OffsetX += 2.5f;
 
             // TODO: Add your update logic here
 
@@ -116,7 +119,7 @@ namespace MonoGames___ProjektMapp
 
             _spriteBatch.Begin();
             _spriteBatch.Draw(backgroundTexture, Vector2.Zero, Color.White);
-
+            layer1_one.Draw(_spriteBatch);
 
             if (isJumping)
             {

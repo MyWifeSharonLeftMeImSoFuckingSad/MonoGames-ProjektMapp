@@ -1,3 +1,3 @@
 ﻿
-using var game = new MonoGames___ProjektMapp.Game1();
+using var game = new MonoGames_ProjektMapp.Game1();
 game.Run();
