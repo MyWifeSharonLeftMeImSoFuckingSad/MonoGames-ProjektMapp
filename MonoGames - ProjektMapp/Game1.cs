@@ -18,6 +18,8 @@ namespace MonoGames_ProjektMapp
         private Texture2D layer1_oneTexture;
         private ParallaxTexture layer1_one;
 
+        private Texture2D currenTexture;
+
         private List<Vector2> cactusis;
         private int cactusTimer = 120;
 
@@ -26,6 +28,8 @@ namespace MonoGames_ProjektMapp
         private bool isJumping;
         private bool isCrouching;
 
+        private SpriteFont font;
+
         //public static int ScreenWidth = 1260;
         //public static int ScreenHeight = 768;
 
@@ -33,7 +37,7 @@ namespace MonoGames_ProjektMapp
         {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-            IsMouseVisible = true;
+            IsMouseVisible = false;
         }
 
         protected override void Initialize()
@@ -58,6 +62,8 @@ namespace MonoGames_ProjektMapp
             backgroundTexture = Content.Load<Texture2D>("background");
             layer1_oneTexture = Content.Load<Texture2D>("layer1");
             layer1_one = new ParallaxTexture(layer1_oneTexture, 230);
+
+            font = Content.Load<SpriteFont>("font");
 
             // TODO: use this.Content to load your game content here
         }
@@ -93,6 +99,8 @@ namespace MonoGames_ProjektMapp
                 isCrouching = false;
             }
 
+            
+
             //CactusTimer
             cactusTimer--;
             if(cactusTimer <= 0)
@@ -106,20 +114,9 @@ namespace MonoGames_ProjektMapp
                 cactusis[i] = cactusis[i] + new Vector2(-5, 0);
             }
 
-            layer1_one.OffsetX += 2.5f;
+            layer1_one.OffsetX += 3.0f;
 
-            // TODO: Add your update logic here
-
-            base.Update(gameTime);
-        }
-
-        protected override void Draw(GameTime gameTime)
-        {
-            //GraphicsDevice.Clear(Color.CornflowerBlue);
-
-            _spriteBatch.Begin();
-            _spriteBatch.Draw(backgroundTexture, Vector2.Zero, Color.White);
-            layer1_one.Draw(_spriteBatch);
+            //collision
 
             if (isJumping)
             {
@@ -133,6 +130,30 @@ namespace MonoGames_ProjektMapp
             {
                 _spriteBatch.Draw(normalTexture, position, Color.White);
             }
+
+            //Rectangle playerBox = new Rectangle((int)position.X, (int)position.Y, 40, 58);
+            //Rectangle cactusBox = new Rectangle((int)position.X, (int)position.Y, 40, 58);
+
+
+            // TODO: Add your update logic here
+
+            base.Update(gameTime);
+        }
+
+        protected override void Draw(GameTime gameTime)
+        {
+            //GraphicsDevice.Clear(Color.CornflowerBlue);
+
+            _spriteBatch.Begin();
+
+            _spriteBatch.Draw(backgroundTexture, Vector2.Zero, Color.White);
+            layer1_one.Draw(_spriteBatch);
+
+
+            _spriteBatch.DrawString(font, ((int)gameTime.TotalGameTime.TotalSeconds).ToString(),
+                new Vector2(10, 20), Color.Black);
+
+           
 
             foreach(var cactus in cactusis)
             {
